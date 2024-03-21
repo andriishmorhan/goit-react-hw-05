@@ -3,22 +3,26 @@ import { NavLink, Outlet, useParams } from "react-router-dom"
 
 export default function MovieDetailsPage() {
 
-const { movieId } = useParams();
-    const [casts, setCasts] = useState([]);
-    
+    const { movieId } = useParams();
+    const [movies, setMovies] = useState({});
+    const [error, setError] = useState(false);
+    const [loader, setLoader] = useState(false);
     
 
     useEffect(() => {
 
-        async function getCastsData() {
+        async function movieDetails() {
+            setLoader(true);
             try {
-                const response = await getCredits(movieId)
-                setCasts(response)
+                const getMovieInfo = await getMovieById(movieId)
+                setMovies(getMovieInfo)
             } catch (error) {
-                
+                setError(true);
+            } finally {
+                setLoader(false);
             }
         }
-        getCastsData();
+        movieDetails();
     }, [movieId])
 
     return (
