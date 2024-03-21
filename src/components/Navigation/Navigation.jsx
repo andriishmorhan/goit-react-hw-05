@@ -17,7 +17,7 @@ export default function Navigation() {
             >
                 Movies page
             </NavLink>
-             <NavLink to="/movie" className={makeLinkClass}
+             <NavLink to="/movies/:movieId" className={makeLinkClass}
             >
                 Movie details page
             </NavLink>
