@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react"
-import { trendingMovie } from "../rest-api"
-import MovieList from "../components/MovieList/MovieList";
-import ErrorMessage from "../components/ErrorMessage/ErrorMessage";
+import { useEffect, useState } from 'react';
+import { trendingMovie, getImagePath } from '../rest-api';
+
+import MovieList from '../components/MovieList/MovieList';
+import ErrorMessage from '../components/ErrorMessage/ErrorMessage';
 
 export default function HomePage() {
 
@@ -13,7 +14,11 @@ export default function HomePage() {
         async function onTrend() {
             try {
                 const trendList = await trendingMovie();
+                const imagePath = await getImagePath();
+                const { base_url, backdrop_sizes } = imagePath;
+                const imageUrl = `${base_url}${backdrop_sizes[1]}`;
                 setMovies(trendList);
+                setUrlPath(imageUrl);
             } catch (error) {
                 setError(true);
             }
@@ -27,6 +32,6 @@ export default function HomePage() {
             <MovieList movies={movies} urlPath={urlPath} />
             {error && <ErrorMessage />}
         </div>
-    )
+    );
 }
 
