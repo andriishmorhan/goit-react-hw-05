@@ -15,7 +15,6 @@ export default function MovieDetailsPage() {
     const [movies, setMovies] = useState({});
     const [error, setError] = useState(false);
     const [loader, setLoader] = useState(false);
-    const [urlPath, setUrlPath] = useState("");
     
     const location = useLocation();
     const backLinkRef = useRef(location.state ?? "/movies");
@@ -33,7 +32,6 @@ export default function MovieDetailsPage() {
                 const imagePath = await getImagePath();
                 const { base_url, backdrop_sizes } = imagePath;
                 const imageUrl = `${base_url}${backdrop_sizes[0]}`;
-                setUrlPath(imageUrl);
                 setMovies(getMovieInfo);
             } catch (error) {
                 setError(true);
@@ -54,10 +52,8 @@ export default function MovieDetailsPage() {
       <div className={css.detailsBox}>
         <img
           className={css.image}
-          src={
-            movies.poster_path ? `${urlPath}${movies.poster_path}` : defaultImg
-          }
-          alt="movies.title"
+          src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}
+          alt={movies.title}
         />
         <div className={css.info}>
           <h2>{movies.title}</h2>
